@@ -23,27 +23,45 @@ public class Main {
 
 
         System.out.println("[?] A que isla vamos a jugar ");
-        String nombreIsla = entrada.next();
+        String nombreIsla = entrada.nextLine();
 
         String[] concursantes = registrarConcursantes();
-
+        // invertir para empezar por el ultimo e ir al primero al final al jugar
+        concursantes = invertirArray(concursantes);
         String[] palabras = new String[1];
+        // pedimos la primera palabra, ya que la funcion añadir no puede crearla
 
-        System.out.println("[?] Quien se ha liado el peta? ");
-        String empieza = entrada.next();
+        // el que lo lia dice la primera palabra
+        System.out.println("[+] Jugador " + concursantes[concursantes.length-1] + " di la primera palabra");
+        palabras[0] = entrada.nextLine();
 
-        // encontramos el indice del jugador para seguir un órden lógico
+        while (concursantes.length > 1) {
+            for (int i = 0; i < concursantes.length; i++) {
+                System.out.println("Te toca, " + concursantes[i]);
+                if (mostrarPalabras(palabras, nombreIsla)) {
+                    System.out.println("\n(ahora tu palabra)");
+                    palabras = añadirPalabra(palabras, entrada.next());
+                } else {
+                    concursantes = eliminarConcursante(concursantes[i], concursantes);
+                }
+            }
+        }
+
+        System.out.println("!!!! El ganador es " + concursantes[0]);
 
     }
 
     /**
-     * A partir de un array y un valor dentro del mismo, devuelve su índice
-     * @param palabras Array de las palabras
-     * @param palabraBuscar Palabra que buscaremos
-     * @return El indice de la palabra en ese array
+     * Funcion auxiliar para invertir el orden de un array
+     * @param array array al q le damos la vuelta
+     * @return el array invertido
      */
-    public static int buscarIndice(String[] palabras, String palabraBuscar) {
-        return 0;
+    public static String[] invertirArray(String[] array) {
+        String [] arrayinvertido = new String[array.length];
+        for (int i = 0; i <array.length;i++){
+            arrayinvertido[i]= array[array.length -1 -i];
+        }
+        return arrayinvertido;
     }
 
     /**
@@ -97,7 +115,7 @@ public class Main {
 
         String[] concursantes = new String[nConcursantes];
 
-        System.out.println("[*] Introduce el nombre del concursante y pulsa enter");
+        System.out.println("[*] Introduce el nombre del concursante y pulsa enter (el que haya liado el peta primero porque quien lo lia lo peta la ley del porreta)");
         for (int i = 0; i<concursantes.length;i++) {
             String nconcursante = entrada.nextLine();
             while (nconcursante.isEmpty())
