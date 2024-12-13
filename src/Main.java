@@ -23,6 +23,7 @@ public class Main {
 
 
         System.out.println("[?] A que isla vamos a jugar ");
+        System.out.print("\n A la isla de ");
         String nombreIsla = entrada.nextLine();
 
         String[] concursantes = registrarConcursantes();
@@ -32,7 +33,7 @@ public class Main {
         // pedimos la primera palabra, ya que la funcion añadir no puede crearla
 
         // el que lo lia dice la primera palabra
-        System.out.println("[+] Jugador " + concursantes[concursantes.length-1] + " di la primera palabra");
+        System.out.println("[+] Jugador " + concursantes[concursantes.length-1] + " , que te llevarias a la isla de " + nombreIsla);
         palabras[0] = entrada.nextLine();
 
         while (concursantes.length > 1) {
@@ -40,7 +41,11 @@ public class Main {
                 System.out.println("Te toca, " + concursantes[i]);
                 if (mostrarPalabras(palabras, nombreIsla)) {
                     System.out.println("\n(ahora tu palabra)");
-                    palabras = añadirPalabra(palabras, entrada.next());
+                    String n_palabra = entrada.nextLine();
+                    while (n_palabra.equals("")) {
+                        n_palabra = entrada.nextLine();
+                    }
+                    palabras = añadirPalabra(palabras, n_palabra);
                 } else {
                     concursantes = eliminarConcursante(concursantes[i], concursantes);
                 }
@@ -71,6 +76,7 @@ public class Main {
      * @return la nueva lista, nuevo array que se creará con las nuevas palabras
      */
     public static String [] añadirPalabra (String[] palabras, String palabra){
+
         String [] nuevasPalabras = new String[palabras.length +1];
         for (int i = 0; i<palabras.length;i++){
             nuevasPalabras[i]=palabras[i];
